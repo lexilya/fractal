@@ -281,6 +281,10 @@ class Scope implements \JsonSerializable
         // Pull out all of OUR metadata and any custom meta data to merge with the main level data
         $meta = $serializer->meta($this->resource->getMeta());
 
+        if (is_object($data)) {
+            return (object) array_merge((array) $data, $meta);
+        }
+
         // in case of returning NullResource we should return null and not to go with array_merge
         if (is_null($data)) {
             if (!empty($meta)) {

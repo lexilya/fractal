@@ -309,6 +309,21 @@ class ScopeTest extends TestCase
         $this->assertSame($expected, $scope->toArray());
     }
 
+    public function testItCanReturnAnObject()
+    {
+        $serializer = Mockery::mock('League\Fractal\Serializer\ArraySerializer')->makePartial();
+        $serializer->shouldReceive('null')->andReturn((object) []);
+
+        $manager = new Manager();
+        $manager->setSerializer($serializer);
+
+        $resource = new NullResource;
+
+        $scope = new Scope($manager, $resource);
+
+        $this->assertEquals((object) [], $scope->toArray());
+    }
+
     public function testPushParentScope()
     {
         $manager = new Manager();
